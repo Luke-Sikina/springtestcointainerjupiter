@@ -27,7 +27,6 @@ public class DatabaseTest {
     @Container
     public static final MySQLContainer databaseContainer = new MySQLContainer<>("mysql:5.7")
         // These values correspond with the values in application-test.properties
-        .withDatabaseName("test_riker_db")
         .withUsername("brungus")
         .withPassword("brungus");
 
