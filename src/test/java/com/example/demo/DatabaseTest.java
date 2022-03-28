@@ -2,6 +2,7 @@ package com.example.demo;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.util.TestPropertyValues;
@@ -10,6 +11,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.jdbc.Sql;
+
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
@@ -26,8 +28,7 @@ public class DatabaseTest {
 
     @Container
     public static final MySQLContainer databaseContainer = new MySQLContainer<>("mysql:5.7")
-        // These values correspond with the values in application-test.properties
-        .withUsername("brungus")
+        .withUsername("fungus")
         .withPassword("brungus");
 
     static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
