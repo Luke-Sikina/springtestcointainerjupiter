@@ -18,28 +18,35 @@ import java.util.List;
 @Testcontainers
 @SpringBootTest
 @TestPropertySource(locations = "classpath:application.properties")
+// This SQL script will run before every test in this class
 @Sql(scripts = {"/data.sql"})
 public class DatabaseTest {
 
     @Container
-    static final MySQLContainer<?> databaseContainer = new MySQLContainer<>("mysql:5.7")
-        .withUsername("fungus")
-        .withPassword("brungus");
+    static final MySQLContainer<?> databaseContainer = new MySQLContainer<>("mysql:5.7");
 
     @DynamicPropertySource
     static void mySQLProperties(DynamicPropertyRegistry registry) {
-            registry.add("spring.datasource.url", databaseContainer::getJdbcUrl);
-            registry.add("spring.datasource.username", databaseContainer::getUsername);
-            registry.add("spring.datasource.password", databaseContainer::getPassword);
+        registry.add("spring.datasource.url", databaseContainer::getJdbcUrl);
+        registry.add("spring.datasource.username", databaseContainer::getUsername);
+        registry.add("spring.datasource.password", databaseContainer::getPassword);
     }
 
     @Autowired
     ThingMapper thingMapper;
 
     @Test
-    void test() {
+    void shouldFindAllThings() {
         List<Thing> actual = thingMapper.findAllThings();
         List<Thing> expected = List.of(thing(1, "foo"), thing(2, "bar"), thing(3, "baz"));
+
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void shouldFindAThing() {
+        Thing actual = thingMapper.getThing(1);
+        Thing expected = thing(1, "foo");
 
         Assertions.assertEquals(expected, actual);
     }
