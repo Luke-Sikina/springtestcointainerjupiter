@@ -9,4 +9,7 @@ import java.util.List;
 public interface ThingMapper {
     @Select("SELECT id, name FROM thing;")
     public List<Thing> findAllThings();
+
+    @Select("SELECt id, name FROM thing WHERE id = #{id}")
+    public Thing getThing(int id);
 }
